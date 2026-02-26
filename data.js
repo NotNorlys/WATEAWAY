@@ -48,7 +48,7 @@ const DESTINOS = {
     imageFile:"maldives.jpg", hotel:"Kurumba Maldives", incluye:"Pasaje separado (aprox.)",
     total:7000, coords:[3.2028,73.2207],
     descripcion:"Villas sobre el agua y lujo absoluto en el océano Índico.",
-    actividades:["Overwater villa","Mantarrayas","Cena privada","Delfines","Deportes acuáticos"]
+    actividades:["Overwater villa","Nadar con Tiburon Ballena","Cena privada","Delfines","Deportes acuáticos"]
   },
 
   // Crucero
@@ -203,4 +203,5 @@ const DESTINOS = {
     descripcion:"Aventura premium entre lagos y montañas.",
     actividades:["Milford Sound","Scenic flight","Wine tasting","Hikes","Lake cruise"]
   }
+
 };
