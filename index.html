@@ -1,0 +1,182 @@
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxury Escape</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet">
+</link></head>
+<body><section class="hero" id="hero">
+<video autoplay="" id="heroVideo" loop="" muted="" playsinline="">
+<source src="https://cdn.coverr.co/videos/coverr-tropical-sunset-1580/1080p.mp4" type="video/mp4"/>
+</video>
+<div class="hero-fade"></div>
+<div class="overlay">
+<div class="hero-panel">
+<h1 id="heroTitle">Luxury Escape</h1>
+<div class="hero-line"></div>
+<p id="tripDates">SEPTEMBER 5 — 13</p>
+<div id="favBox">❤️ Favorito: <strong>Ninguno</strong></div>
+</div>
+</div>
+</section>
+<section class="explore-wrap" id="explore">
+  <div class="explore-head">
+    <h2>Explorar destinos</h2>
+    <div class="explore-sub">Busca un lugar, filtra por país y ordénalo. Click en un país para abrir sus destinos.</div>
+  </div>
+
+  <div class="explore-controls" aria-label="Controles de exploración">
+    <label class="ctrl">
+      <span>Buscar lugar</span>
+      <input id="exploreSearch" type="text" placeholder="Ej: Tokyo, Maldives, Ibiza..." autocomplete="off" />
+    </label>
+
+    <label class="ctrl">
+      <span>País</span>
+      <select id="exploreCountry"></select>
+    </label>
+
+    <label class="ctrl">
+      <span>Ordenar</span>
+      <select id="exploreSort">
+          <option value="fav">Favorito primero</option>
+          <option value="az">País (A–Z)</option>
+          <option value="za">País (Z–A)</option>
+          <option value="minAsc">Precio desde (menor → mayor)</option>
+          <option value="minDesc">Precio desde (mayor → menor)</option>
+          <option value="avgAsc">Precio promedio (menor → mayor)</option>
+          <option value="avgDesc">Precio promedio (mayor → menor)</option>
+          <option value="destAsc">Destinos (menos → más)</option>
+          <option value="destDesc">Destinos (más → menos)</option>
+    </select>
+    </label>
+
+    <label class="ctrl">
+      <span>Viajeros</span>
+      <select id="exploreTravelers">
+        <option value="1">1</option>
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+      </select>
+    </label>
+
+    <button id="exploreClear" class="btn-soft" type="button">Limpiar</button>
+
+    <div class="explore-chart-wrap"><canvas id="exploreChart" aria-label="Gráfico de precios y destinos" role="img"></canvas></div>
+
+      <div class="explore-badges" aria-live="polite">
+      <span class="pill">Mostrando: <strong id="exploreCount">0</strong></span>
+      <span class="pill">Tip: ⭐ resalta tu favorito</span>
+    </div>
+  </div>
+
+  
+</section>
+
+<main class="container">
+<section class="controls">
+<div class="controls-left">
+<div class="field">
+<label>Buscar lugar</label>
+<input id="searchInput" placeholder="Ej: Tokyo, Maldives, Ibiza..." type="text"/>
+</div>
+<div class="field">
+<label>País</label>
+<select id="countrySelect">
+<option value="all">Todos</option>
+</select>
+</div>
+<div class="field">
+<label>Tipo</label>
+<select id="typeSelect">
+<option value="all">Todos</option>
+<option value="playa">Playa</option>
+<option value="ciudad">Ciudad</option>
+<option value="naturaleza">Naturaleza</option>
+<option value="crucero">Crucero</option>
+</select>
+</div>
+<div class="field">
+<label>Viajeros</label>
+<select id="travelersSelect">
+<option value="1">1 persona</option>
+<option selected="" value="2">2 personas</option>
+<option value="3">3 personas</option>
+<option value="4">4 personas</option>
+<option value="5">5 personas</option>
+<option value="6">6 personas</option>
+</select>
+</div>
+<div class="field">
+<label>Ordenar</label>
+<select id="sortSelect">
+<option value="fav">Favorito primero</option>
+<option value="dayAsc">$/día (menor → mayor)</option>
+<option value="dayDesc">$/día (mayor → menor)</option>
+<option value="totalAsc">$ total (menor → mayor)</option>
+<option value="totalDesc">$ total (mayor → menor)</option>
+<option value="name">Nombre (A→Z)</option>
+</select>
+</div>
+</div>
+<div class="controls-right">
+<div class="count-pill">Mostrando: <strong id="countText">0</strong></div>
+<button class="btn btn-outline-dark" id="clearFiltersBtn" type="button">Limpiar</button>
+</div>
+</section>
+<section class="note">
+<strong>Nota:</strong> Los precios son <em>estimados “desde”</em> y pueden variar por fecha exacta, disponibilidad y ocupación.
+    </section>
+
+<div class="section-spacer" aria-hidden="true"></div>
+
+<section class="map-wrap">
+<div class="map-head">
+<h2>Mapa interactivo</h2>
+<div class="map-sub">Zoom + toca marcador para ver / elegir</div>
+</div>
+<div id="mapIndex"></div>
+</section><section>
+<div class="section-title">
+<h2>🌍 Países</h2>
+<div class="section-sub">En destino.html verás más lugares del mismo país</div>
+</div>
+<div id="cards"></div>
+</section>
+<section>
+<div class="section-title">
+<h2>🚢 Cruceros</h2>
+<div class="section-sub">Opciones premium: MSC, Royal Caribbean y Norwegian</div>
+</div>
+<div id="cruiseCards"></div>
+</section>
+</main>
+
+
+
+<footer>Luxury Escape • Beige Tropical Aesthetic</footer>
+<audio id="bgMusic" loop="" playsinline="" preload="auto">
+<source src="music.mp3" type="audio/mpeg"/>
+</audio>
+<button aria-label="Música" class="music-btn" id="musicBtn" type="button">🔇</button>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+
+
+
+
